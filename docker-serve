@@ -1,8 +1,0 @@
-#!/bin/sh
-rm -rf Gemfile.lock _site
-docker run --rm \
-  --volume="$PWD:/srv/jekyll" \
-  --volume="$PWD/vendor/bundle:/usr/local/bundle" \
-  -p 4000:4000 -p 4001:4001 \
-  -it jekyll/jekyll:3.8 \
-  jekyll serve --livereload-port 4001 -wl --future

@@ -11,6 +11,20 @@ cv.html: cv/Resume_for_Frehers.tex
 	sed -i cv.html -e "s,[_a-z0-9A-Z-]\+\.css,assets/cv.css,g"
 
 build: cv.html
-	jekyll build
+	docker run --rm \
+	  --volume="$${PWD}:/srv/jekyll" \
+	  -e GEM_HOME=/srv/jekyll/vendor/bundle \
+	  -e BUNDLE_PATH=/srv/jekyll/vendor/bundle \
+	  jekyll/jekyll:3.8 \
+	  jekyll build
+
+serve:
+	docker run --rm -it \
+	  --volume="$${PWD}:/srv/jekyll" \
+	  -e GEM_HOME=/srv/jekyll/vendor/bundle \
+	  -e BUNDLE_PATH=/srv/jekyll/vendor/bundle \
+	  -p 4000:4000 -p 4001:4001 \
+	  jekyll/jekyll:3.8 \
+	  jekyll serve --livereload-port 4001 -wl --future
 
 .PHONY: build
