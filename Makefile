@@ -1,7 +1,7 @@
 all: build
 
 cv.html: cv/Resume_for_Frehers.tex
-	(cd cv && git pull && docker run --rm --volume="$${PWD}:$${PWD}" --volume="$${PWD}/..:$${PWD}/.." --workdir "$${PWD}" texlive-tidy:latest make4ht -e ../mybuild.mk4 -uf html5+staticsite+tidy Resume_for_Frehers.tex || true)
+	(cd cv && git pull && docker run --rm --volume="$${PWD}:$${PWD}" --volume="$${PWD}/..:$${PWD}/.." --workdir "$${PWD}" texlive/texlive:latest make4ht -e ../mybuild.mk4 -uf html5+staticsite+tidy Resume_for_Frehers.tex || true)
 	mv cv/*.html cv.html
 	mv cv/*.css assets/cv.css
 	sed -i assets/cv.css  -e "s,body{margin:4em;},,g"
