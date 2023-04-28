@@ -1,0 +1,109 @@
+div.input {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  position: relative;
+  left: -15ex;
+  width: calc(100% + 15ex);
+}
+
+div.output_prompt {
+  color: #D84315;
+}
+
+div.inner_cell {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+div.output_text {
+    text-align: left;
+    color: #000;
+    line-height: 1.21429em;
+}
+
+div.input_prompt {
+    color: #303F9F;
+    border-top: 1px solid transparent;
+}
+
+div.output_prompt {
+    color: #D84315;
+}
+
+div.output_wrapper {
+    position: relative;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    z-index: 1;
+    left: -15ex;
+    width: calc(100% + 15ex);
+}
+
+div.output_area {
+    padding: 0px;
+    page-break-inside: avoid;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: horizontal;
+    box-align: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+div.output_text {
+    text-align: left;
+    color: #000;
+    line-height: 1.21429em;
+}
+
+div.output_subarea {
+    overflow-x: auto;
+    padding: 0;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    flex: 1;
+    max-width: calc(100% - 14ex);
+}
+
+.prompt {
+    min-width: 14ex;
+    padding: 0.4em;
+    margin: 0px;
+    font-family: monospace;
+    text-align: right;
+    line-height: 1.21429em;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}

@@ -19,13 +19,12 @@ description: >- # this means to ignore newlines until "baseurl:"
   This is my personal site. You can read here about my professional and personal experience.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  timesama
 
 # Build settings
 markdown: kramdown
 plugins:
   - jekyll-feed
+  - jekyll-jupyter-notebook
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -40,3 +39,4 @@ exclude:
   - vendor/ruby/
   - cv/
   - Makefile
+  - mybuild.mk4
