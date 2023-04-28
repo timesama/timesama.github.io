@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Determination of Molar Mass from freezing point"
-link_to_notebook: https://github.com/timesama/bgu-physical-chemistry-lab8/blob/master/physical-chemistry-lab8.ipynb
+link_to_notebook: https://github.com/timesama/bgu-physical-chemistry-lab8/blob/main/bgu-physical-chemistry-lab8.ipynb
 ---
 
 # Determination of Molar Mass from freezing point
