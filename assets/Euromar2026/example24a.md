@@ -1,9 +1,3 @@
----
-layout: post
-title: "References Euromar 2026"
-date: 2026-06-26
----
-
 # References {#references .unnumbered}
 
 ::::: {#refs .references .csl-bib-body .hanging-indent}

@@ -34,13 +34,14 @@ date: 2026-06-26
         volume = field("volume", e)
         year = field("year", e)
         pages = field("pages", e)
+        doi = field("doi", e)
 
         authors = authors.replace(" and ", "; ")
 
         f.write(
             f"{i}. **{authors}**\n"
             f"   *{title}*\n"
-            f"   {journal} **{volume}** ({year}), {pages}.\n\n"
+            f"   {journal} **{volume}** ({year}), {pages}, {doi}.\n\n"
         )
 
 print("Bibliography generated.")
