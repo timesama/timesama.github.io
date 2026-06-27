@@ -26,3 +26,11 @@ date: 2026-06-26
    *Investigation by combined solid‐state NMR and SAXS methods of the morphology and domain size in polystyrene‐<i>b‐</i>polyethylene oxide‐<i>b‐</i>polystyrene triblock copolymers*
    Journal of Polymer Science Part B: Polymer Physics **48** (2009), 55–64.
 
+6. **Schmidt-Rohr,  K.; Spiess,  H. W.**
+   *Chain diffusion between crystalline and amorphous regions in polyethylene detected by 2D exchange carbon-13 NMR*
+   Macromolecules **24** (1991), 5288–5293.
+
+7. **Idiyatullin,  D.Sh.; Khozina,  E.V.; Smirnov,  V.S.**
+   *Studies of domain morphology in segmented polyurethanes by pulsed NMR*
+   Solid State Nuclear Magnetic Resonance **7** (1996), 17–26.
+
