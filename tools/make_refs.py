@@ -39,6 +39,11 @@ def field(name, entry):
 def clean(s):
     return latex2text(s)
 
+def doi_link(doi):
+    if not doi:
+        return ""
+    return f"https://doi.org/{doi}"
+
 with open(OUTFILE, "w", encoding="utf-8") as f:
     f.write("""---
 layout: post
@@ -58,13 +63,14 @@ date: 2026-06-26
         volume = field("volume", e)
         year = field("year", e)
         pages = field("pages", e)
+        doi = clean(field("DOI", e))
 
         authors = authors.replace(" and ", "; ")
 
         f.write(
             f"{i}. **{authors}**\n"
             f"   *{title}*\n"
-            f"   {journal} **{volume}** ({year}), {pages}.\n\n"
+            f"   {journal} **{volume}** ({year}), {pages}\n   {doi}.\n\n"
         )
 
 print("Bibliography generated with proper Unicode.")
