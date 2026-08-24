@@ -71,6 +71,8 @@ title:  "Downloading Images from Chrome Network via HAR"
 
 The key point is that the **HAR with sensitive data preserves the session information Chrome uses to access the images**. Without it, requesting the `.action` URLs separately may return an HTML login/error page instead of the actual image.
 
+**DO NOT FORGET TO REVERSE (TURN OFF HAR SENSETIVE) FROM THE STEP 1**
+
 
 download-images.ps1 content be like
 ```
