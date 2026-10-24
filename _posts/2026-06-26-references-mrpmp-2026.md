@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MRPM 2026"
-date: 2026-24-10
+date: 2026-10-24
 ---
 
 # References
