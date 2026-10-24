@@ -1,78 +1,138 @@
 ---
 layout: post
-title: "MRPM 2026"
-date: 2026-10-24
+title: "References Euromar 2026"
+date: 2026-06-26
 ---
+# MRPM 2026
+
+[![MRPM 2026 Poster]({{ '/assets/mrpm2026/poster_preview.png' | relative_url }})]({{ '/assets/mrpm2026/poster.pdf' | relative_url }})
+
+[Download the poster (PDF)]({{ '/assets/mrpm2026/poster.pdf' | relative_url }})
 
 # References
 
-1. **Grunin,  Leonid; Ivanova,  Maria; Schiraya,  Veronika; Grunina,  Tatiana**
+1. **Grunin, Leonid; Ivanova, Maria; Schiraya, Veronika; Grunina, Tatiana**
    *Time-Domain NMR Techniques in Cellulose Structure Analysis*
-   Applied Magnetic Resonance **54** (2023), 929–955
-   10.1007/s00723-023-01600-4.
+   Applied Magnetic Resonance **54** (2023), 929--955
+   .
 
-2. **Hedesiu,  Cristian; Demco,  Dan E.; Kleppinger,  Ralph; Buda,  Alina Adams; Blümich,  Bernhard; Remerie,  Klaas; Litvinov,  Victor M.**
-   *The effect of temperature and annealing on the phase composition,  molecular mobility and the thickness of domains in high-density polyethylene*
-   Polymer **48** (2007), 763–777
-   10.1016/j.polymer.2006.12.019.
+2. **Hedesiu, Cristian; Demco, Dan E.; Kleppinger, Ralph; Buda, Alina Adams; Blümich, Bernhard; Remerie, Klaas; Litvinov, Victor M.**
+   *The effect of temperature and annealing on the phase composition, molecular mobility and the thickness of domains in high-density polyethylene*
+   Polymer **48** (2007), 763--777
+   .
 
-3. **Litvinov,  Victor M.; Penning,  Jan Paul**
+3. **Litvinov, Victor M.; Penning, Jan Paul**
    *Phase Composition and Molecular Mobility in Nylon 6 Fibers as Studied by Proton NMR Transverse Magnetization Relaxation*
-   Macromolecular Chemistry and Physics **205** (2004), 1721–1734
-   10.1002/macp.200400089.
+   Macromolecular Chemistry and Physics **205** (2004), 1721--1734
+   .
 
-4. **Litvinov,  Victor; Men,  Yongfeng**
+4. **Litvinov, Victor; Men, Yongfeng**
    *Time-domain NMR in polyolefin research*
-   Polymer **256** (2022), 125205
-   10.1016/j.polymer.2022.125205.
+   Polymer **256** (2022), 
+   .
 
-5. **Lange,  Frank; Schwenke,  Konrad; Kurakazu,  Manami; Akagi,  Yuki; Chung,  Ung-il; Lang,  Michael; Sommer,  Jens-Uwe; Sakai,  Takamasa; Saalwächter,  Kay**
+5. **Lange, Frank; Schwenke, Konrad; Kurakazu, Manami; Akagi, Yuki; Chung, Ung-il; Lang, Michael; Sommer, Jens-Uwe; Sakai, Takamasa; Saalwächter, Kay**
    *Connectivity and Structural Defects in Model Hydrogels: A Combined Proton NMR and Monte Carlo Simulation Study*
-   Macromolecules **44** (2011), 9666–9674
-   10.1021/ma201847v.
+   Macromolecules **44** (2011), 9666--9674
+   .
 
-6. **Demco,  Dan E.; Johansson,  Anna; Tegenfeldt,  Jörgen**
+6. **Demco, Dan E.; Johansson, Anna; Tegenfeldt, Jörgen**
    *Proton spin diffusion for spatial heterogeneity and morphology investigations of polymers*
-   Solid State Nuclear Magnetic Resonance **4** (1995), 13–38
-   10.1016/0926-2040(94)00036-c.
+   Solid State Nuclear Magnetic Resonance **4** (1995), 13--38
+   .
 
-7. **Eckman,  R. R.; Henrichs,  P. M.; Peacock,  A. J.**
+7. **Eckman, R. R.; Henrichs, P. M.; Peacock, A. J.**
    *Study of Polyethylene by Solid State NMR Relaxation and Spin Diffusion*
-   Macromolecules **30** (1997), 2474–2481
-   10.1021/ma9516753.
+   Macromolecules **30** (1997), 2474--2481
+   .
 
-8. **Bonk,  Fábio A.; Caldarelli,  Stefano; Phan,  Trang; Bertin,  Denis; Deazevedo,  Eduardo R.; Mantovani,  Gerson Luiz; Bonagamba,  Tito J.; Plivelic,  Tomás S.; Torriani,  Iris L.**
-   *Investigation by combined solid‐state NMR and SAXS methods of the morphology and domain size in polystyrene‐<i>b‐</i>polyethylene oxide‐<i>b‐</i>polystyrene triblock copolymers*
-   Journal of Polymer Science Part B: Polymer Physics **48** (2009), 55–64
-   10.1002/polb.21843.
+8. **Bonk, Fábio A.; Caldarelli, Stefano; Phan, Trang; Bertin, Denis; Deazevedo, Eduardo R.; Mantovani, Gerson Luiz; Bonagamba, Tito J.; Plivelic, Tomás S.; Torriani, Iris L.**
+   *Investigation by combined solid-state NMR and SAXS methods of the morphology and domain size in polystyrene-b-polyethylene oxide-b-polystyrene triblock copolymers*
+   Journal of Polymer Science Part B: Polymer Physics **48** (2009), 55--64
+   .
 
-9. **Schmidt-Rohr,  K.; Spiess,  H. W.**
+9. **Schmidt-Rohr, K.; Spiess, H. W.**
    *Chain diffusion between crystalline and amorphous regions in polyethylene detected by 2D exchange carbon-13 NMR*
-   Macromolecules **24** (1991), 5288–5293
-   10.1021/ma00019a011.
+   Macromolecules **24** (1991), 5288--5293
+   .
 
-10. **Idiyatullin,  D.Sh.; Khozina,  E.V.; Smirnov,  V.S.**
+10. **Idiyatullin, D. Sh.; Khozina, E. V.; Smirnov, V. S.**
    *Studies of domain morphology in segmented polyurethanes by pulsed NMR*
-   Solid State Nuclear Magnetic Resonance **7** (1996), 17–26
-   10.1016/0926-2040(96)01229-5.
+   Solid State Nuclear Magnetic Resonance **7** (1996), 17--26
+   .
 
-11. **Qin,  Yanan; Qiao,  Yongna; Chassé,  Walter; Litvinov,  Victor; Men,  Yongfeng**
+11. **Qin, Yanan; Qiao, Yongna; Chassé, Walter; Litvinov, Victor; Men, Yongfeng**
    *Crystallinity of polyolefins with large side groups by low-field 1H NMR T2 relaxometry: Isotactic Polybutene-1 with form II and I crystals*
-   Solid State Nuclear Magnetic Resonance **105** (2020), 101637
-   10.1016/j.ssnmr.2019.101637.
+   Solid State Nuclear Magnetic Resonance **105** (2020), 
+   .
 
-12. **Androsch,  René; Di Lorenzo,  Maria Laura; Schick,  Christoph; Wunderlich,  Bernhard**
-   *Mesophases in polyethylene,  polypropylene,  and poly(1-butene)*
-   Polymer **51** (2010), 4639–4662
-   10.1016/j.polymer.2010.07.033.
+12. **Androsch, René; Di Lorenzo, Maria Laura; Schick, Christoph; Wunderlich, Bernhard**
+   *Mesophases in polyethylene, polypropylene, and poly(1-butene)*
+   Polymer **51** (2010), 4639--4662
+   .
 
-13. **Di Girolamo,  Rocco; Cicolella,  Alessandra; Talarico,  Giovanni; Scoti,  Miriam; De Stefano,  Fabio; Giordano,  Angelo; Malafronte,  Anna; De Rosa,  Claudio**
+13. **Di Girolamo, Rocco; Cicolella, Alessandra; Talarico, Giovanni; Scoti, Miriam; De Stefano, Fabio; Giordano, Angelo; Malafronte, Anna; De Rosa, Claudio**
    *Structure and Morphology of Crystalline Syndiotactic Polypropylene-Polyethylene Block Copolymers*
-   Polymers **14** (2022), 1534
-   10.3390/polym14081534.
+   Polymers **14** (2022), 
+   .
 
-14. **Yamamoto,  Katsuhiro; Kato,  Kazumichi; Sugino,  Yusuke; Hara,  Shigeo; Miwa,  Yohei; Sakaguchi,  Masato; Shimada,  Shigetaka**
-   *ESR Study on Segmental Motion of Polyethylene in Amorphous Region,  Dependent on Crystallinity,  Molecular Weight,  and Labeled Site*
-   Macromolecules **38** (2005), 4737–4743
-   10.1021/ma050062f.
+14. **Yamamoto, Katsuhiro; Kato, Kazumichi; Sugino, Yusuke; Hara, Shigeo; Miwa, Yohei; Sakaguchi, Masato; Shimada, Shigetaka**
+   *ESR Study on Segmental Motion of Polyethylene in Amorphous Region, Dependent on Crystallinity, Molecular Weight, and Labeled Site*
+   Macromolecules **38** (2005), 4737--4743
+   .
+
+15. **Crist, Buckley; Peterlin, A.**
+   *Spin-Lattice Relaxation in Linear Polyethylene*
+   Journal of Polymer Science Part A-2: Polymer Physics **7** (1969), 1165--1186
+   .
+
+16. **Crist, Buckley; Peterlin, A.**
+   *Spin-lattice relaxation in branched polyethylene*
+   Journal of Macromolecular Science, Part B: Physics **4** (1970), 791--810
+   .
+
+17. **Głowinkowski, S.; Makrocka-Rydzyk, M.; Wanke, S.; Jurga, S.**
+   *Molecular dynamics in polyethylene and ethylene-1-butene copolymer investigated by NMR methods*
+   European Polymer Journal **38** (2002), 961--969
+   .
+
+18. **Trappeniers, N. J.; Gerritsma, C. J.; Oosting, P. H.**
+   *The measurement of nuclear magnetic relaxation time T1 in polymers by means of spin echo technique*
+   Physica **30** (1964), 997--1017
+   .
+
+19. **Slichter, W. P.**
+   *NMR Studies of Multiple Relaxations in Polymers*
+   Journal of Polymer Science Part C: Polymer Symposia **14** (1966), 33--48
+   .
+
+20. **Anderson, J. E.; Slichter, W. P.**
+   *Nuclear Spin Relaxation in Solid n-Alkanes*
+   Journal of Physical Chemistry **69** (1965), 3099--3104
+   .
+
+21. **Moraes, Tiago B.; Von Atzingen, Gustavo V.; Mazzero, Larissa P.; Mendes, William S.; Zacharias, Marina B.; Cardinali, Marcelo C. B.**
+   *An open-access WebApp for inverse Laplace transform analysis of time-domain nuclear magnetic resonance signals*
+   Magnetic Resonance **7** (2026), 39--51
+   .
+
+22. **Saalwächter, Kay**
+   *Proton multiple-quantum NMR for the study of chain dynamics and structural constraints in polymeric soft materials*
+   Progress in Nuclear Magnetic Resonance Spectroscopy **51** (2007), 1--35
+   .
+
+23. **Chassé, Walter; López Valentín, Juan; Genesky, Geoffrey D.; Cohen, Claude; Saalwächter, Kay**
+   *Precise dipolar coupling constant distribution analysis in proton multiple-quantum NMR of elastomers*
+   Journal of Chemical Physics **134** (2011), 
+   .
+
+24. **Goldman, M.; Shen, L.**
+   *Spin-Spin Relaxation in LaF3*
+   Physical Review **144** (1966), 321--331
+   .
+
+25. **Saalwächter, Kay**
+   *Detection of Heterogeneities in Dry and Swollen Polymer Networks by Proton Low-Field NMR Spectroscopy*
+   Journal of the American Chemical Society **125** (2003), 14684--14685
+   .
 

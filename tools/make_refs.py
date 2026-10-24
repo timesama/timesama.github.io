@@ -2,8 +2,8 @@ from pathlib import Path
 import re
 from pylatexenc.latex2text import LatexNodes2Text
 
-BIBFILE = Path("assets/Euromar2026/Euromar2026.bib")
-OUTFILE = Path("_posts/2026-06-26-references-euromar-2026.md")
+BIBFILE = Path("assets/mrpm2026/mrpm2026.bib")
+OUTFILE = Path("_posts/2026-06-26-references-mrpmp-2026.md")
 
 latex2text = LatexNodes2Text().latex_to_text
 
