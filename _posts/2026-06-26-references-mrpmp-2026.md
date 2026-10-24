@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "References Euromar 2026"
-date: 2026-06-26
+title: "MRPM 2026"
+date: 2026-10-24
 ---
-# MRPM 2026
+# Poster
 
 [![MRPM 2026 Poster]({{ '/assets/mrpm2026/poster_preview.png' | relative_url }})]({{ '/assets/mrpm2026/poster.pdf' | relative_url }})
 
