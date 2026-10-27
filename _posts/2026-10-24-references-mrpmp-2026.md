@@ -11,8 +11,11 @@ Fitting requires a model (in the worst case scenario, it requires also the corre
 OK, let's assume I have convinced you. So what with the second moment? Well, it is known to be dependent on crystallinity, and many other properties, that influence the dipolar coupling. We can measure it's temperature dependence for couple of convenient polymers, and this leads us to the first two graphs. Basically, as the temperature increases, the molecular motions in the polymer gradually unfreeze and activate -- The M2 decreases. What happens next is that we are arriving at some kind of a plateau (of even splash-increase), and this is the temperature region, where the effective proton–proton dipolar interactions remain approximately constant. This means that the molecular motions responsible for averaging these interactions are not changing significantly on the NMR timescale.
 Further heating produces little additional reduction in M2, until another motional process becomes effective.
 
+OK, we can actually connect these changes with what we see in the T1: there we see alpha-beta-gamma processes, and these are overlapping with the M2 temperature dependence. I think it's cool.
 
+Next? We can use it in the Spin Diffusion experiment. Instead of doing multicomponent complex fitting of the NMR line (spectral or decay) we can take the M2 of the signal filtered in the Double-Quantum experiment. Let's say, when we are filtering the signal at ~60us, the contribution from the rigid signal becomes neglectable. And we can say that the M2 at 60us DQ filtering time corresponds solely to the amorphous part. Well, now we just need to use it in the corresponding formula, and this is how we get the dimensions of the amorphous part of the material.
 
+Thank you for your attention, and have a nice conference :)
 
 # Poster
 
