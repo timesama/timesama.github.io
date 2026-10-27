@@ -5,6 +5,8 @@ date: 2026-10-24
 ---
 
 Oh, wow! You made it this far. Congrats. You can find the poster itself and the references I used below.
+
+# Shortly
 Now, let me tell you what the main idea of this work is in informal tone.
 We are generally very interested in application of the second moment (M2), that we are obtaining by integration from the NMR spectral line. Usually, scientist will do the fitting, and calculate the M2 from there. What is the problem in our opinion?
 
