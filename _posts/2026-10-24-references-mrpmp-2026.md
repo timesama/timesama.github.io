@@ -23,9 +23,17 @@ Thank you for your attention, and have a nice conference :)
 
 # Poster
 
-[![MRPM 2026 Poster]({{ '/assets/mrpm2026/poster_preview.png' | relative_url }})]({{ '/assets/mrpm2026/poster.pdf' | relative_url }})
+
+<a href="{{ '/assets/mrpm2026/poster.pdf' | relative_url }}">
+  <img
+    src="{{ '/assets/mrpm2026/poster_preview.png' | relative_url }}"
+    alt="MRPM 2026 Poster"
+    width="400"
+  >
+</a>
 
 [Download the poster (PDF)]({{ '/assets/mrpm2026/poster.pdf' | relative_url }})
+
 
 # References
 
