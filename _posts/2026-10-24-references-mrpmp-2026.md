@@ -7,7 +7,9 @@ date: 2026-10-24
 Oh, wow! You made it this far. Congrats. You can find the poster itself and the references I used below.
 Now, let me tell you what the main idea of this work is in informal tone.
 We are generally very interested in application of the second moment (M2), that we are obtaining by integration from the NMR spectral line. Usually, scientist will do the fitting, and calculate the M2 from there. What is the problem in our opinion?
+
 Fitting requires a model (in the worst case scenario, it requires also the correct initial parameters). It is all nice, when you have a task to study the materials, you have SAXS, NMR, DSC on your hands, plenty of time, and some knowledge about fitting procedure. Imagine, if you do not have all of this -- and this is exactly where many industry clients are. Another option is if you want to do the routine measurements in vast quantities: such as temperature measurements. Fitting procedure will take you substantial amount of time, no doubt.
+
 OK, let's assume I have convinced you. So what with the second moment? Well, it is known to be dependent on crystallinity, and many other properties, that influence the dipolar coupling. We can measure it's temperature dependence for couple of convenient polymers, and this leads us to the first two graphs. Basically, as the temperature increases, the molecular motions in the polymer gradually unfreeze and activate -- The M2 decreases. What happens next is that we are arriving at some kind of a plateau (of even splash-increase), and this is the temperature region, where the effective proton–proton dipolar interactions remain approximately constant. This means that the molecular motions responsible for averaging these interactions are not changing significantly on the NMR timescale.
 Further heating produces little additional reduction in M2, until another motional process becomes effective.
 
