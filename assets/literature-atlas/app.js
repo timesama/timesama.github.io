@@ -129,53 +129,115 @@ function radius(p) {
     return minimumRadius + fraction * (maximumRadius - minimumRadius);
 }
 
-function layout() {
-    const groups = [...new Set(visible.map(p => p.group))];
-    nodes = visible.map((p, i) => {
-        const g = groups.indexOf(p.group),
-            angle = g / groups.length * Math.PI * 2;
-        const phi = i * 2.39996,
-            dist = 18 * Math.sqrt(i % 25);
-        return {
-            p,
-            x: Math.cos(angle) * 200 + Math.cos(phi) * dist,
-            y: Math.sin(angle) * 200 + Math.sin(phi) * dist,
-            r: radius(p)
-        }
-    });
-    const index = new Map(nodes.map(n => [n.p.id, n]));
-    for (let t = 0; t < 150; t++) {
-        for (let i = 0; i < nodes.length; i++)
-            for (let j = i + 1; j < nodes.length; j++) {
-                const a = nodes[i],
-                    b = nodes[j],
-                    dx = b.x - a.x,
-                    dy = b.y - a.y,
-                    dist = Math.hypot(dx, dy) || .01,
-                    min = a.r + b.r + 7;
-                if (dist < min) {
-                    const f = (min - dist) * .28;
-                    a.x -= dx / dist * f;
-                    a.y -= dy / dist * f;
-                    b.x += dx / dist * f;
-                    b.y += dy / dist * f
-                }
+let layoutFrame = null;
+
+// Separate circles without changing their citation-based radii.
+function separateBubbles(items) {
+    let largestOverlap = 0;
+    for (let i = 0; i < items.length; i++) {
+        for (let j = i + 1; j < items.length; j++) {
+            const a = items[i];
+            const b = items[j];
+            let dx = b.x - a.x;
+            let dy = b.y - a.y;
+            let distance = Math.hypot(dx, dy);
+            if (distance < 0.000001) {
+                dx = 1;
+                dy = 0;
+                distance = 1;
             }
-        for (const e of edges) {
-            const a = index.get(e.source),
-                b = index.get(e.target);
-            const dx = b.x - a.x,
-                dy = b.y - a.y;
-            const d = Math.hypot(dx, dy);
-            if (d > 110) {
-                a.x += dx * .0008;
-                b.x -= dx * .0008;
-                a.y += dy * .0008;
-                b.y -= dy * .0008
-            }
+            const overlap = a.r + b.r + 7 - distance;
+            if (overlap <= 0) continue;
+            largestOverlap = Math.max(largestOverlap, overlap);
+            const shift = overlap / 2;
+            a.x -= dx / distance * shift;
+            a.y -= dy / distance * shift;
+            b.x += dx / distance * shift;
+            b.y += dy / distance * shift;
         }
     }
-    fit()
+    return largestOverlap;
+}
+
+function layout() {
+    // Restart from the currently displayed positions if controls change rapidly.
+    if (layoutFrame !== null) cancelAnimationFrame(layoutFrame);
+    layoutFrame = null;
+    const previous = new Map(nodes.map(node => [node.p.id, { ...node }]));
+    const groups = [...new Set(visible.map(paper => paper.group))];
+    const targets = visible.map((paper, i) => {
+        const old = previous.get(paper.id);
+        const angle = groups.indexOf(paper.group) / groups.length * Math.PI * 2;
+        const phi = i * 2.39996;
+        const distance = 18 * Math.sqrt(i % 25);
+        return {
+            p: paper,
+            x: old ? old.x : Math.cos(angle) * 200 + Math.cos(phi) * distance,
+            y: old ? old.y : Math.sin(angle) * 200 + Math.sin(phi) * distance,
+            r: radius(paper)
+        };
+    });
+    const index = new Map(targets.map(node => [node.p.id, node]));
+    for (let iteration = 0; iteration < 150; iteration++) {
+        for (const edge of edges) {
+            const a = index.get(edge.source);
+            const b = index.get(edge.target);
+            if (!a || !b) continue;
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            if (Math.hypot(dx, dy) > 110) {
+                a.x += dx * 0.0008;
+                b.x -= dx * 0.0008;
+                a.y += dy * 0.0008;
+                b.y -= dy * 0.0008;
+            }
+        }
+        separateBubbles(targets);
+    }
+    // Finish with collision resolution only: citation attraction must not
+    // pull the circles back into each other on the final iteration.
+    for (let iteration = 0; iteration < 600; iteration++) {
+        if (separateBubbles(targets) < 0.01) break;
+    }
+
+    if (!previous.size || !targets.length ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        nodes = targets;
+        fit();
+        return;
+    }
+
+    const starts = targets.map(target => previous.get(target.p.id) || {
+        ...target,
+        r: 0
+    });
+    nodes = targets.map((target, i) => ({ ...target, ...starts[i], p: target.p }));
+    const startedAt = performance.now();
+    const duration = 650;
+
+    function animate(now) {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = progress * progress * (3 - 2 * progress);
+        nodes.forEach((node, i) => {
+            const start = starts[i];
+            const target = targets[i];
+            node.x = start.x + (target.x - start.x) * eased;
+            node.y = start.y + (target.y - start.y) * eased;
+            node.r = start.r + (target.r - start.r) * eased;
+        });
+        for (let iteration = 0; iteration < 20; iteration++) {
+            if (separateBubbles(nodes) < 0.01) break;
+        }
+        if (progress < 1) {
+            fit();
+            layoutFrame = requestAnimationFrame(animate);
+        } else {
+            nodes = targets;
+            layoutFrame = null;
+            fit();
+        }
+    }
+    layoutFrame = requestAnimationFrame(animate);
 }
 const cv = $('#canvas'),
     ctx = cv.getContext('2d');
