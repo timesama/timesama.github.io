@@ -1,5 +1,79 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Polymer Literature Atlas</title><link rel="stylesheet" href="style.css"></head><body>
-<header><div class="mark">NMR</div><div><h1>Polymer Literature Atlas</h1><p>A map of methods, materials and the papers connecting them.</p></div><button id="load">Open metadata</button><input type="file" id="file" accept=".json" hidden></header>
-<main><aside class="filters"><h2>Explore the collection</h2><label>Search papers<input id="search" type="search" placeholder="Title, DOI, author or keyword"></label><div id="facets"></div><div class="years"><label>From<input id="from" type="number" placeholder="Any year"></label><label>To<input id="to" type="number" placeholder="Any year"></label></div><label>Order paper list<select id="sort"><option value="title">Title</option><option value="year">Year, newest first</option><option value="citation_count">Citations, highest first</option><option value="authors">Author</option><option value="journal">Journal</option></select></label><button id="reset">Reset filters</button><p class="hint">Options are sorted by matching record count. Counts reflect the other active filters. Categories can overlap.</p></aside>
-<section class="workspace"><div class="toolbar"><div><strong id="count">Loading…</strong><span id="coverage"></span></div><div><button id="graphView" aria-pressed="true">Map</button><button id="listView" aria-pressed="false">List</button><button id="export">Export selection</button></div></div><div class="maptools"><label>Bubble area<select id="size"><option value="citation_count">OpenAlex citations</option><option value="local_citations">Citations within collection</option></select></label><label>Arrows<select id="arrows"><option value="focus">Selected paper</option><option value="all">All visible links</option><option value="none">Hidden</option></select></label><button id="fit">Fit map</button><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button></div><div id="map"><canvas id="canvas" aria-label="Paper citation map. Use the paper list for keyboard access."></canvas><div id="empty" hidden>No papers match these filters.</div><div id="tooltip" hidden></div><div class="legend"><span id="yearLegend"></span><div class="gradient"></div><small>Gray = unknown year · dashed outline = unknown count<br>Arrows: citing paper → cited paper · drag to pan · scroll to zoom</small></div></div><div id="list" hidden></div><div id="status" role="status"></div></section>
-<aside class="details" id="details"><div class="eyebrow">PAPER DETAILS</div><h2>Select a bubble</h2><p>Inspect its bibliography, categories, source folders and citation connections.</p><p class="hint">Only metadata is loaded. PDFs stay on your computer.</p></aside></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Polymer Literature Atlas</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="mark">NMR</div>
+            <div>
+                <h1>Polymer Literature Atlas</h1>
+                <p>A map of methods, materials and the papers connecting them.</p>
+            </div><button id="load">Open metadata</button><input type="file" id="file"
+                accept=".json" hidden>
+        </header>
+        <main>
+            <aside class="filters">
+                <h2>Explore the collection</h2><label>Search papers<input id="search" type="search"
+                        placeholder="Title, DOI, author or keyword"></label>
+                <div id="facets"></div>
+                <div class="years"><label>From<input id="from" type="number"
+                            placeholder="Any year"></label><label>To<input id="to" type="number"
+                            placeholder="Any year"></label></div><label>Order paper list<select
+                        id="sort">
+                        <option value="title">Title</option>
+                        <option value="year">Year, newest first</option>
+                        <option value="citation_count">Citations, highest first</option>
+                        <option value="authors">Author</option>
+                        <option value="journal">Journal</option>
+                    </select></label><button id="reset">Reset filters</button>
+                <p class="hint">Options are sorted by matching record count. Counts reflect the
+                    other active filters. Categories can overlap.</p>
+            </aside>
+            <section class="workspace">
+                <div class="toolbar">
+                    <div><strong id="count">Loading…</strong><span id="coverage"></span></div>
+                    <div><button id="graphView" aria-pressed="true">Map</button><button
+                            id="listView" aria-pressed="false">List</button><button
+                            id="export">Export selection</button></div>
+                </div>
+                <div class="maptools"><label>Bubble area<select id="size">
+                            <option value="citation_count">OpenAlex citations</option>
+                            <option value="local_citations">Citations within collection</option>
+                        </select></label><label>Arrows<select id="arrows">
+                            <option value="focus">Selected paper</option>
+                            <option value="all">All visible links</option>
+                            <option value="none">Hidden</option>
+                        </select></label><button id="fit">Fit map</button><button id="zoomIn"
+                        aria-label="Zoom in">+</button><button id="zoomOut"
+                        aria-label="Zoom out">−</button></div>
+                <div id="map"><canvas id="canvas"
+                        aria-label="Paper citation map. Use the paper list for keyboard access."></canvas>
+                    <div id="empty" hidden>No papers match these filters.</div>
+                    <div id="tooltip" hidden></div>
+                    <div class="legend"><span id="yearLegend"></span>
+                        <div class="gradient"></div><small>Gray = unknown year · dashed outline =
+                            unknown count<br>Arrows: citing paper → cited paper · drag to pan ·
+                            scroll to zoom</small>
+                    </div>
+                </div>
+                <div id="list" hidden></div>
+                <div id="status" role="status"></div>
+            </section>
+            <aside class="details" id="details">
+                <div class="eyebrow">PAPER DETAILS</div>
+                <h2>Select a bubble</h2>
+                <p>Inspect its bibliography, categories, source folders and citation connections.
+                </p>
+                <p class="hint">Only metadata is loaded. PDFs stay on your computer.</p>
+            </aside>
+        </main>
+        <script src="app.js"></script>
+    </body>
+
+</html>
