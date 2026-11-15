@@ -1,0 +1,158 @@
+[
+  {
+    "action": "excluded",
+    "record": "pbfacb404df8a",
+    "detail": "DQ/MQ bibliography"
+  },
+  {
+    "action": "excluded",
+    "record": "pdc4bd13c8788",
+    "detail": "T1 temperature bibliography"
+  },
+  {
+    "action": "excluded",
+    "record": "pca10ebb92bd2",
+    "detail": "Previously extracted polyethylene data"
+  },
+  {
+    "action": "excluded",
+    "record": "p3211d27d1cc1",
+    "detail": "MOSCITO 4 user manual"
+  },
+  {
+    "action": "merged",
+    "record": "p71d4dda2fe06",
+    "detail": "Removed redundant bibliography-only row at user request",
+    "merged_ids": [
+      "bib952dbb6c3d10"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "p30423407f1c3",
+    "detail": "Removed redundant bibliography-only row at user request",
+    "merged_ids": [
+      "bib132d04decc35"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "p6478d284acb3",
+    "detail": "Removed redundant bibliography-only row at user request",
+    "merged_ids": [
+      "bib2e3bba3ce12b"
+    ]
+  },
+  {
+    "action": "metadata corrected",
+    "record": "pf7e70b9fbe09",
+    "detail": "10.1016/0032-3861(87)90372-7"
+  },
+  {
+    "action": "metadata corrected",
+    "record": "p6478d284acb3",
+    "detail": "10.1002/pol.1971.160090313"
+  },
+  {
+    "action": "metadata corrected",
+    "record": "p37edc777c991",
+    "detail": "10.1007/bf02111393"
+  },
+  {
+    "action": "metadata corrected",
+    "record": "p72e629460d1f",
+    "detail": "10.1039/f19888403851"
+  },
+  {
+    "action": "metadata corrected",
+    "record": "p91392a6f294a",
+    "detail": "10.1021/ma00019a011"
+  },
+  {
+    "action": "merged",
+    "record": "pf7e70b9fbe09",
+    "detail": "One DOI, one work",
+    "merged_ids": []
+  },
+  {
+    "action": "merged",
+    "record": "p6478d284acb3",
+    "detail": "One DOI, one work",
+    "merged_ids": []
+  },
+  {
+    "action": "merged",
+    "record": "p37edc777c991",
+    "detail": "One DOI, one work",
+    "merged_ids": [
+      "bibb8e62615d8ff"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "p72e629460d1f",
+    "detail": "One DOI, one work",
+    "merged_ids": [
+      "bib87b237eb06ed"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "p91392a6f294a",
+    "detail": "One DOI, one work",
+    "merged_ids": []
+  },
+  {
+    "action": "merged",
+    "record": "p8d77ce67e063",
+    "detail": "Consolidated chapters, appendices and front/back matter into one book",
+    "merged_ids": [
+      "p5f02ea9aedd6",
+      "p30d226874d64",
+      "p3a2f3b0e26b2",
+      "pe39f000678ed",
+      "p78c1b3cc2309",
+      "p5c4c798e3650",
+      "pc89f84e96655",
+      "p04d1db58cd5b",
+      "pbffb41e5ad7c",
+      "pe2b7854af9b7",
+      "p259ff4d656ea",
+      "pefeb32ebc4c5",
+      "pa9c12ac77930",
+      "p0653f100c3dd",
+      "pbd5640f7a475",
+      "pacdbfe250acb",
+      "pd7794325e22f",
+      "p68eadd38f910",
+      "p6361cd426476",
+      "paf77b42e3d29",
+      "p619c53a13c8e"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "p275011f4be9a",
+    "detail": "Chapter represented within Modern Magnetic Resonance",
+    "merged_ids": [
+      "p80391d5d2ca2"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "p275011f4be9a",
+    "detail": "Earlier versions of the same MQ chapter represented within the book",
+    "merged_ids": [
+      "bib1b8eb30ea03e",
+      "bib307169aa1501"
+    ]
+  },
+  {
+    "action": "merged",
+    "record": "pc065514e80ff",
+    "detail": "English/Russian editions represented as one book; edition identifiers retained",
+    "merged_ids": [
+      "fid50"
+    ]
+  }
+]
