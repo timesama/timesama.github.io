@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+"""Import BibTeX or migrate a legacy atlas to compact JSON (schema 3.0).
+Python 3.10+. Offline by default; --online enables OpenAlex lookups.
+"""
 import argparse
 import copy
 import datetime as dt
@@ -13,20 +15,12 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-
 import bibtexparser
 from bibtexparser.bparser import BibTexParser
 from pylatexenc.latex2text import LatexNodes2Text
 
 LATEX = LatexNodes2Text()
-RQ = {'RQ1': 'Morphology and dynamics', 'RQ2': 'Comparison with other techniques',
-      'RQ3': 'Methods and observables', 'RQ4': 'Fitting and computational difficulties',
-      'RQ5': 'Theoretical and experimental second moments'}
-MANUAL = {'group', 'kind', 'material', 'materials', 'tech', 'methods', 'keywords',
-          'rq', 'rq_categories', 'm2', 'notes', 'extractable_data', 'classification_basis',
-          'title', 'authors', 'author_objects', 'author_surnames', 'authors_display',
-          'language', 'original_title', 'original_authors', 'journal_group'}
-
+CATEGORY_NAMES = ('method', 'material', 'data', 'folder', 'keyword', 'general', 'research_question')
 
 def text(value):
     return ' '.join(LATEX.latex_to_text(str(value or '')).split())
@@ -73,76 +67,6 @@ def authors(value):
     return result
 
 
-def empty_record():
-    arrays = ['files', 'folder_paths', 'folders', 'rq_categories', 'keywords_assigned',
-              'authors', 'author_objects', 'author_surnames', 'authors_display', 'isbn',
-              'references_doi', 'references_openalex', 'keywords', 'methods', 'materials',
-              'extractable_data', 'fid_reference_numbers', 'fid_contexts', 'component_dois']
-    record = {key: [] for key in arrays}
-    record.update(group='Unclassified', kind='', material='', tech='', rq='',
-                  m2='Not assessed', notes='', journal='', journal_group='', abstract='',
-                  availability='Not downloaded — BibTeX import', citation_count=None,
-                  openalex_id=None, local_citations=0, doi=None, year=None,
-                  classification_basis='BibTeX metadata only; content classification not assessed.')
-    return record
-
-
-def from_bib(entry):
-    record = empty_record()
-    typ = entry['ENTRYTYPE'].lower()
-    record.update(title=text(entry.get('title')), bibtex_key=entry['ID'],
-                  bibtex_keys=[entry['ID']], bibtex_fields=entry,
-                  metadata_source='BibTeX import', document_subtype=typ)
-    record['document_type'] = ({'book': 'Book', 'inbook': 'Book', 'incollection': 'Book',
-        'phdthesis': 'Dissertation', 'mastersthesis': 'Dissertation', 'thesis': 'Dissertation',
-        'inproceedings': 'Conference paper', 'proceedings': 'Book',
-        'manual': 'Industrial / standards / protocols', 'techreport': 'Report',
-        'article': 'Paper'}).get(typ, 'Other')
-    record['kind'] = record['document_type']
-    record['doi'] = doi(entry.get('doi')) or doi(entry.get('url'))
-    year = re.search(r'\b\d{4}\b', entry.get('year', entry.get('date', '')))
-    record['year'] = int(year.group()) if year else None
-    for target, source in [('journal', 'journal'), ('publisher', 'publisher'),
-                           ('volume', 'volume'), ('issue', 'number'), ('page', 'pages'),
-                           ('abstract', 'abstract'), ('book_title', 'booktitle')]:
-        record[target] = text(entry.get(source))
-    record['url'] = entry.get('url') or ('https://doi.org/' + record['doi'] if record['doi'] else '')
-    record['isbn'] = [re.sub(r'[^0-9Xx]', '', v).upper()
-                      for v in re.split(r'[;,]', entry.get('isbn', '')) if v.strip()]
-    record['author_objects'] = authors(entry.get('author') or entry.get('editor', ''))
-    if not entry.get('author') and entry.get('editor'): record['creator_role'] = 'Editors'
-    record['authors'] = [' '.join(filter(None, [a['given'], a['family']])) for a in record['author_objects']]
-    record['authors_display'] = record['authors'][:]
-    record['author_surnames'] = sorted({a['family'] for a in record['author_objects']})
-    record['keywords_bibtex'] = [text(v) for v in re.split(r'[;,]', entry.get('keywords', '')) if v.strip()]
-    record['journal_group'] = record['journal']
-    for prefix in ['Physical Review', 'Journal of Physical Chemistry', 'Journal of Polymer Science']:
-        if record['journal'].startswith(prefix): record['journal_group'] = prefix
-    record['doi_status'] = 'Imported DOI — not verified' if record['doi'] else 'No DOI supplied'
-    # Keep attachment fields verbatim. A BibTeX path does not prove a PDF exists.
-    record['bibtex_file_field'] = entry.get('file', '')
-    record['primary_identifier'] = ('ISBN: ' + ', '.join(record['isbn'])
-        if record['document_type'] == 'Book' and record['isbn'] else
-        'DOI: ' + record['doi'] if record['doi'] else '')
-    identity = record['doi'] or '|'.join([record['title'].casefold(), str(record['year']),
-                                         ';'.join(record['authors']), entry['ID']])
-    record['id'] = 'bib' + hashlib.sha256(identity.encode()).hexdigest()[:16]
-    return record
-
-
-def match_record(candidate, papers):
-    if candidate['doi']:
-        matches = [p for p in papers if doi(p.get('doi')) == candidate['doi']]
-        if len(matches) == 1: return matches[0]
-    # Do not merge chapters just because they share their parent book's ISBN.
-    title = candidate['title'].casefold()
-    matches = [p for p in papers if title and p.get('title', '').casefold() == title
-               and p.get('year') == candidate['year']
-               and p.get('author_surnames') == candidate['author_surnames']
-               and not (p.get('doi') and candidate['doi'] and doi(p['doi']) != candidate['doi'])]
-    return matches[0] if len(matches) == 1 else None
-
-
 def fetch_work(record, api_key):
     identifier = (record.get('openalex_id') or '').rstrip('/').split('/')[-1]
     if not re.fullmatch(r'W\d+', identifier):
@@ -164,114 +88,182 @@ def fetch_work(record, api_key):
             raise RuntimeError('OpenAlex connection failed or timed out') from None
 
 
-def enrich(record, work):
-    record['openalex_id'] = work['id']
-    record['citation_count'] = work.get('cited_by_count')
-    record['citation_count_source'] = 'OpenAlex'
-    record['citation_count_date'] = dt.date.today().isoformat()
-    record['references_openalex'] = work.get('referenced_works', [])
-    record['metadata_openalex_updated_at'] = work.get('updated_date')
-    # Fill empty bibliographic fields, never replace manually corrected titles.
-    if not record.get('title'): record['title'] = work.get('title') or ''
-    if not record.get('year'): record['year'] = work.get('publication_year')
-    if not record.get('abstract') and work.get('abstract_inverted_index'):
-        positions = [(i, word) for word, indexes in work['abstract_inverted_index'].items() for i in indexes]
-        record['abstract'] = ' '.join(word for _, word in sorted(positions))
+def unique(values):
+    return list(dict.fromkeys(value for value in values if value))
 
 
-def rebuild_edges(data):
-    papers = data['papers']
-    ids = {p['id'] for p in papers}
-    by_doi = {doi(p.get('doi')): p['id'] for p in papers if doi(p.get('doi'))}
-    by_oa = {p['openalex_id'].split('/')[-1]: p['id'] for p in papers if p.get('openalex_id')}
-    edges = {}
-    def add(source, target, evidence):
-        if source not in ids or target not in ids or source == target: return
-        edge = edges.setdefault((source, target), {'source': source, 'target': target, 'sources': []})
-        if evidence not in edge['sources']: edge['sources'].append(evidence)
-    # Preserve existing evidence, including curated book-component links.
-    for edge in data.get('edges', []):
-        for evidence in edge.get('sources') or ['Existing atlas link']:
-            add(edge['source'], edge['target'], evidence)
+def as_list(value):
+    return value if isinstance(value, list) else [value] if value else []
+
+
+def new_record(entry):
+    """Keep all BibTeX fields, including unfamiliar/custom fields, once."""
+    identity = doi(entry.get('doi')) or json.dumps(entry, sort_keys=True, ensure_ascii=False)
+    return {
+        'id': 'bib' + hashlib.sha256(identity.encode()).hexdigest()[:16],
+        'bib': copy.deepcopy(entry),
+        'citations': {'total': None, 'source': None, 'updated': None, 'openalex_id': None},
+        'files': [],
+        'categories': {name: [] for name in CATEGORY_NAMES}
+    }
+
+
+def migrate_record(old):
+    if 'bib' in old:
+        record = copy.deepcopy(old)
+        for name in CATEGORY_NAMES:
+            record.setdefault('categories', {}).setdefault(name, [])
+        record.setdefault('files', [])
+        record.setdefault('citations', {})
+        return record
+
+    bib = copy.deepcopy(old.get('bibtex_fields') or {})
+    types = {'Paper': 'article', 'Review': 'article', 'Correction': 'article',
+             'Book': 'book', 'Dissertation': 'phdthesis', 'Conference paper': 'inproceedings',
+             'Manuscript': 'unpublished'}
+    bib['ENTRYTYPE'] = bib.get('ENTRYTYPE') or types.get(old.get('document_type'), 'misc')
+    bib['ID'] = old.get('bibtex_key') or bib.get('ID') or old['id']
+    # The top-level legacy values may contain manual corrections newer than raw BibTeX.
+    mapping = {'title': 'title', 'year': 'year', 'journal': 'journal', 'volume': 'volume',
+               'issue': 'number', 'page': 'pages', 'publisher': 'publisher', 'edition': 'edition',
+               'doi': 'doi', 'url': 'url', 'abstract': 'abstract', 'language': 'language',
+               'book_title': 'booktitle', 'school': 'school', 'institution': 'institution'}
+    for source, target in mapping.items():
+        if old.get(source) not in (None, '', []):
+            bib[target] = str(old[source])
+    if old.get('isbn'): bib['isbn'] = '; '.join(as_list(old['isbn']))
+    # Display names preserve manual translations and the supplied author order.
+    names = old.get('authors_display') or old.get('authors')
+    if names:
+        bib['editor' if old.get('creator_role') == 'Editors' else 'author'] = ' and '.join(names)
+    if old.get('keywords_bibtex') and not bib.get('keywords'):
+        bib['keywords'] = '; '.join(old['keywords_bibtex'])
+    record = new_record(bib)
+    record['id'] = old['id']
+    record['citations'] = {
+        'total': old.get('citation_count'), 'source': old.get('citation_count_source'),
+        'updated': old.get('citation_count_date'), 'openalex_id': old.get('openalex_id')}
+    paths = as_list(old.get('folder_paths'))
+    filenames_in_paths = {path.replace('\\', '/').split('/')[-1] for path in paths}
+    record['files'] = unique(paths + [name for name in old.get('files', []) if name not in filenames_in_paths])
+    mapping = {'method': 'methods', 'material': 'materials', 'data': 'extractable_data',
+               'folder': 'folders', 'keyword': 'keywords', 'general': 'group',
+               'research_question': 'rq_categories'}
+    record['categories'] = {key: as_list(old.get(value)) for key, value in mapping.items()}
+    if old.get('notes'): record['notes'] = old['notes']
+    return record
+
+
+def normalized_title(record):
+    return text(record['bib'].get('title')).casefold()
+
+
+def find_match(candidate, papers):
+    candidate_doi = doi(candidate['bib'].get('doi')) or doi(candidate['bib'].get('url'))
+    matches = [p for p in papers if candidate_doi and
+               (doi(p['bib'].get('doi')) or doi(p['bib'].get('url'))) == candidate_doi]
+    if len(matches) == 1: return matches[0]
+    # Exact title/year/authors fallback; never merge different known DOIs.
+    matches = []
     for paper in papers:
-        for ref in paper.get('references_doi', []):
-            add(paper['id'], by_doi.get(doi(ref)), 'Reference DOI')
-        for ref in paper.get('references_openalex', []):
-            add(paper['id'], by_oa.get(ref.split('/')[-1]), 'OpenAlex referenced_works')
-    data['edges'] = list(edges.values())
-    counts = dict.fromkeys(ids, 0)
-    for edge in data['edges']: counts[edge['target']] += 1
-    for paper in papers: paper['local_citations'] = counts[paper['id']]
+        other_doi = doi(paper['bib'].get('doi')) or doi(paper['bib'].get('url'))
+        if candidate_doi and other_doi and candidate_doi != other_doi: continue
+        if not normalized_title(candidate): continue
+        if normalized_title(candidate) != normalized_title(paper): continue
+        if candidate['bib'].get('year') != paper['bib'].get('year'): continue
+        if text(candidate['bib'].get('author')).casefold() != text(paper['bib'].get('author')).casefold(): continue
+        matches.append(paper)
+    return matches[0] if len(matches) == 1 else None
+
+
+def add_references(papers, edges, references):
+    by_doi = {doi(p['bib'].get('doi')): p['id'] for p in papers if doi(p['bib'].get('doi'))}
+    by_oa = {p['citations']['openalex_id'].split('/')[-1]: p['id'] for p in papers
+             if p['citations'].get('openalex_id')}
+    for source, refs in references.items():
+        for value in refs.get('doi', []):
+            if doi(value) in by_doi: edges.add((source, by_doi[doi(value)]))
+        for value in refs.get('openalex', []):
+            if value.split('/')[-1] in by_oa: edges.add((source, by_oa[value.split('/')[-1]]))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('bib', type=Path)
+    parser.add_argument('bib', nargs='?', type=Path, help='Optional when migrating --existing JSON only')
     parser.add_argument('--existing', type=Path)
-    parser.add_argument('--output', type=Path, default=Path('library_updated.json'))
-    parser.add_argument('--online', action='store_true', help='Refresh imported records through OpenAlex')
-    parser.add_argument('--refresh-all', action='store_true', help='With --online, refresh every record')
-    parser.add_argument('--overwrite', action='store_true', help='Allow replacing an existing output file')
+    parser.add_argument('--output', type=Path, default=Path('library_compact.json'))
+    parser.add_argument('--online', action='store_true')
+    parser.add_argument('--refresh-all', action='store_true')
+    parser.add_argument('--overwrite', action='store_true')
     args = parser.parse_args()
-
+    if not args.bib and not args.existing: parser.error('Supply a .bib file or --existing JSON')
     if args.refresh_all and not args.online: parser.error('--refresh-all requires --online')
-    if args.output.exists() and not args.overwrite: parser.error('Output exists; use another filename or --overwrite')
-    if args.output.resolve() == args.bib.resolve(): parser.error('Output cannot replace the BibTeX input')
-    data = json.loads(args.existing.read_text(encoding='utf-8-sig')) if args.existing else {
-        'schema_version': '2.0', 'rq_definitions': RQ, 'papers': [], 'edges': [],
-        'citation_direction': 'citing → cited', 'file_locations': [], 'fid_references': [],
-        'missing_folder_files': [], 'notes': []}
-
-    if not isinstance(data.get('papers'), list): parser.error('Existing JSON must contain a papers array')
-    if len({p['id'] for p in data['papers']}) != len(data['papers']): parser.error('Existing JSON contains duplicate IDs')
-    bib_parser = BibTexParser(common_strings=True)
-    bib_parser.ignore_nonstandard_types = False
-    bib_parser.add_missing_from_crossref = True
-    database = bibtexparser.loads(args.bib.read_text(encoding='utf-8-sig'), parser=bib_parser)
-    if not database.entries: parser.error('No BibTeX entries found; no output written')
-    touched, added, merged = set(), 0, 0
-
-    for entry in database.entries:
-        candidate = from_bib(entry)
-        old = match_record(candidate, data['papers'])
-        if old:
-            merged += 1
-            for key, value in candidate.items():
-                if key not in MANUAL and key != 'id' and old.get(key) in (None, '', []):
-                    old[key] = copy.deepcopy(value)
-            old.setdefault('bibtex_keys', [])
-            if entry['ID'] not in old['bibtex_keys']: old['bibtex_keys'].append(entry['ID'])
-            touched.add(old['id'])
-        else:
-            # Identical keys from distinct entries must never create duplicate IDs.
-            used = {p['id'] for p in data['papers']}
-            while candidate['id'] in used: candidate['id'] += '_2'
-            data['papers'].append(candidate)
-            touched.add(candidate['id'])
-            added += 1
+    if args.output.exists() and not args.overwrite: parser.error('Output exists; choose a new filename or use --overwrite')
+    if args.bib and args.output.resolve() == args.bib.resolve(): parser.error('Output cannot replace BibTeX input')
+    old = json.loads(args.existing.read_text(encoding='utf-8-sig')) if args.existing else {'papers': [], 'edges': []}
+    if not isinstance(old.get('papers'), list): parser.error('Existing JSON needs a papers array')
+    papers = [migrate_record(p) for p in old['papers']]
+    if len({p['id'] for p in papers}) != len(papers): parser.error('Duplicate existing paper IDs')
+    edges = {(e['source'], e['target']) for e in old.get('edges', [])}
+    refs = {p['id']: {'doi': p.get('references_doi', []), 'openalex': p.get('references_openalex', [])}
+            for p in old['papers']}
+    touched = set()
+    added = matched = 0
+    if args.bib:
+        bib_parser = BibTexParser(common_strings=True)
+        bib_parser.ignore_nonstandard_types = False
+        bib_parser.add_missing_from_crossref = True
+        entries = bibtexparser.loads(args.bib.read_text(encoding='utf-8-sig'), parser=bib_parser).entries
+        if not entries: parser.error('No BibTeX entries found; no output written')
+        for entry in entries:
+            candidate = new_record(entry)
+            record = find_match(candidate, papers)
+            if record:
+                matched += 1
+                for key, value in entry.items():
+                    if record['bib'].get(key) in (None, ''): record['bib'][key] = value
+            else:
+                record = candidate
+                used = {p['id'] for p in papers}
+                while record['id'] in used: record['id'] += '_2'
+                papers.append(record)
+                added += 1
+            touched.add(record['id'])
     failures = []
-
     if args.online:
-        records = data['papers'] if args.refresh_all else [p for p in data['papers'] if p['id'] in touched]
-        for i, record in enumerate(records, 1):
-            print(f'OpenAlex {i}/{len(records)}: {record["id"]}', file=sys.stderr)
+        selected = papers if args.refresh_all or not args.bib else [p for p in papers if p['id'] in touched]
+        for i, record in enumerate(selected, 1):
+            print(f'OpenAlex {i}/{len(selected)}: {record["id"]}', file=sys.stderr)
+            query = {'openalex_id': record['citations'].get('openalex_id'),
+                     'doi': doi(record['bib'].get('doi')) or doi(record['bib'].get('url'))}
             try:
-                work = fetch_work(record, os.getenv('OPENALEX_API_KEY', ''))
-                if work: enrich(record, work)
+                work = fetch_work(query, os.getenv('OPENALEX_API_KEY', ''))
+                if work:
+                    record['citations'] = {'total': work.get('cited_by_count'), 'source': 'OpenAlex',
+                        'updated': dt.date.today().isoformat(), 'openalex_id': work['id']}
+                    refs.setdefault(record['id'], {})['openalex'] = work.get('referenced_works', [])
+                    for field, value in [('title', work.get('title')), ('year', work.get('publication_year'))]:
+                        if value and not record['bib'].get(field): record['bib'][field] = str(value)
+                    inverted = work.get('abstract_inverted_index')
+                    if inverted and not record['bib'].get('abstract'):
+                        positions = [(i, word) for word, indexes in inverted.items() for i in indexes]
+                        record['bib']['abstract'] = ' '.join(word for _, word in sorted(positions))
             except (RuntimeError, ValueError, KeyError) as error:
                 failures.append({'id': record['id'], 'error': str(error)})
             time.sleep(0.12)
-    rebuild_edges(data)
-    data['generated_at'] = dt.datetime.now(dt.timezone.utc).isoformat()
-    data['last_import'] = {'source': args.bib.name, 'added': added, 'matched': merged,
-                           'online': args.online, 'failures': failures}
+    add_references(papers, edges, refs)
+    ids = {p['id'] for p in papers}
+    result = {'schema_version': '3.0', 'generated_at': dt.datetime.now(dt.timezone.utc).isoformat(),
+              'papers': papers, 'edges': [{'source': a, 'target': b} for a, b in sorted(edges)
+                                         if a in ids and b in ids and a != b]}
+    if old.get('rq_definitions'): result['rq_definitions'] = old['rq_definitions']
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    temporary = args.output.with_name(args.output.name + '.tmp')
-    temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    temporary.replace(args.output)
-    print(f'Saved {args.output}: {len(data["papers"])} records, {len(data["edges"])} links; '
-          f'{added} new, {merged} matched, {len(failures)} online failures.')
-    if failures: print('Existing values retained on lookup failures; see last_import.failures.', file=sys.stderr)
+    temp = args.output.with_name(args.output.name + '.tmp')
+    temp.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    temp.replace(args.output)
+    print(f'Saved {args.output}: {len(papers)} records, {len(result["edges"])} links; {added} new, {matched} matched.')
+    for failure in failures: print(f'Lookup failed for {failure["id"]}: {failure["error"]}', file=sys.stderr)
+    if failures: print('Previous values retained for failed lookups.', file=sys.stderr)
 
 
 if __name__ == '__main__':
