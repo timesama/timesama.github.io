@@ -562,7 +562,7 @@ $('#export').onclick = () => {
     setTimeout(() => URL.revokeObjectURL(u), 1000)
 };
 new ResizeObserver(resize).observe($('#map'));
-fetch('library_compact.json').then(r => {
+fetch('library_main.json').then(r => {
     if (!r.ok) throw Error('Metadata file not found');
     return r.json()
 }).then(init).catch(() => {
