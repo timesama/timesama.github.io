@@ -1339,10 +1339,13 @@
       "bib": {
         "ENTRYTYPE": "book",
         "ID": "p99f1de7d9757",
-        "title": "Nobleman, A Study of Polymer Dynamics by Solid-State NMR"
+        "title": "Nobleman, A Study of Polymer Dynamics by Solid-State NMR",
+        "author": "Nobleman, John",
+        "year": "2021",
+        "publisher" : "Nova Science Publishers, Inc"
       },
       "citations": {
-        "total": null,
+        "total": 1,
         "source": null,
         "updated": null,
         "openalex_id": null
@@ -1360,7 +1363,9 @@
         "folder": [
           "TextBooks"
         ],
-        "keyword": [],
+        "keyword": [
+          "NMR fundamentals",
+        ],
         "general": [
           "Books and reference works"
         ],
@@ -1405,7 +1410,9 @@
         "folder": [
           "TextBooks"
         ],
-        "keyword": [],
+        "keyword": [
+          "NMR fundamentals"
+        ],
         "general": [
           "Books and reference works"
         ],
@@ -1584,8 +1591,9 @@
       "bib": {
         "ENTRYTYPE": "phdthesis",
         "ID": "p1f5c9c3f0906",
-        "title": "unfolded-polypeptide dynamics dissertation",
-        "year": "2014"
+        "title": "End-to-End Distance Distribution and Intra-Chain Diffusion in Unfolded Polypeptide Chains Determined by Time-Resolved FRET Measurements",
+        "year": "2014",
+        "author": "Ursula G. Zinth"
       },
       "citations": {
         "total": null,
@@ -1598,6 +1606,7 @@
       ],
       "categories": {
         "method": [
+          "Molecular simulation",
           "Other non-NMR"
         ],
         "material": [
@@ -1607,13 +1616,15 @@
         "folder": [
           "Dissertations"
         ],
-        "keyword": [],
-        "general": [
-          "Outside review scope"
+        "keyword": [
+          "Polymer structure"
         ],
-        "research_question": []
+        "general": [
+          "Books and theses"
+        ],
+        "research_question": ["RQ1"]
       },
-      "notes": "Filename is misleading for an NMR collection; exclude from core TD-NMR evidence."
+      "notes": ""
     },
     {
       "id": "p01ce091ecf42",
@@ -7551,7 +7562,9 @@
         "folder": [
           "Other"
         ],
-        "keyword": [],
+        "keyword": [
+          "NMR fundamentals"
+        ],
         "general": [
           "Industrial notes and standards"
         ],
